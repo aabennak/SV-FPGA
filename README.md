@@ -20,4 +20,11 @@ File Contents:
 - qf21_n15_transpiled.qasm: An OpenQasm file taken from QASMBench as an example.
 - Float_codes Folder: Contains all implementations that represent state vector values in float format.
 - half_codes Folder: Contains all implementations that represent state vector values in half precision format.
-- Script Folder: Contains the scripts for both a software emulation and real hardware synthesis. 
+- Script Folder: Contains the scripts for both a software emulation and real hardware synthesis.
+
+Version summary:
+- version_1.0: Contains the Basic implementation, optimizations include loop unrolling and pipelineing.
+- version_1.1: Same as the version 1.0 with extra optimizations including: moving the copy loop inside the 2-qubit gate loop and the dataflow pragma
+- version_1.1a: built on the version 1.1, except that it uses two buffers instead of one for each state vector(input and output) in order to run 29-qubit circuits.
+- float impl: Is the one and only float implementation of the Q2SV system
+![alt text](https://github.com/aabennak/SV-FPGA/blob/main/version_map.png?raw=true)
