@@ -3,7 +3,7 @@
 This code repository was operational using the following system specifications...
 
 Software:
-- OS: RHE 7.9
+- OS: RHEL 7.9
 - Synthesis Software: Vivado/Vitis 2023.2
 
 Hardware:
