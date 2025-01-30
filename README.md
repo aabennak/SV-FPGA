@@ -1,6 +1,6 @@
 **Q2SV git Repository**
 
-This code was operational using the following system specifications...
+This code repository was operational using the following system specifications...
 
 Software:
 - OS: RHE 7.9
