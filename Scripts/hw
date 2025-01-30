@@ -1,0 +1,12 @@
+//load Vitis here
+scl enable devtoolset-9 bash
+source .../xilinx2023.2/Vitis_HLS/2023.2/settings64.sh
+source ...xilinx/xrt/setup.sh
+export PLATFORM_REPO_PATHS=/opt/xilinx/platforms
+mkdir hw
+cp xrt.ini hw
+cd hw
+g++ -g -std=c++17 -Wall -O0 ../../src/host.cpp -o ./app.exe -I$XILINX_XRT/include/ -L$XILINX_XRT/lib -lxrt_coreutil -pthread
+v++ -c -t hw --platform xilinx_u200_gen3x16_xdma_2_202110_1 --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o ./vadd.xo
+v++ -l -t hw --platform xilinx_u200_gen3x16_xdma_2_202110_1 --config ../../src/u200.cfg ./vadd.xo -o ./vadd.xclbin
+./app.exe
