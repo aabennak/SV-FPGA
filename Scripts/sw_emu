@@ -1,0 +1,16 @@
+scl enable devtoolset-9 bash
+\\load Vitis here
+source .../xilinx2023.2/Vitis/2023.2/settings64.sh
+source ..xilinx/xrt/setup.sh
+export PLATFORM_REPO_PATHS=..xilinx/platforms
+
+mkdir sw_emu
+cp xrt.ini sw_emu
+cd sw_emu
+
+g++ -g -std=c++17 -g -std=c++17 -Wall -O0 ../../src/host.cpp -o ./app.exe -I$XILINX_XRT/include/ -L$XILINX_XRT/lib -lxrt_coreutil -pthread
+emconfigutil --platform xilinx_u200_gen3x16_xdma_2_202110_1
+v++ -c -t sw_emu --platform xilinx_u200_gen3x16_xdma_2_202110_1 --config ../../src/u200.cfg -k vadd -I../../src ../../src/vadd.cpp -o ./vadd.xo
+v++ -l -t sw_emu --platform xilinx_u200_gen3x16_xdma_2_202110_1 --config ../../src/u200.cfg ./vadd.xo -o ./vadd.xclbin
+export XCL_EMULATION_MODE=sw_emu
+./app.exe
