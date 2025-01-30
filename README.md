@@ -22,6 +22,12 @@ File Contents:
 - half_codes Folder: Contains all implementations that represent state vector values in half precision format.
 - Script Folder: Contains the scripts for both a software emulation and real hardware synthesis.
 
+Instructions:
+- Download a qasm file of your own liking and run Qasm2CSV.ipynb either as a notebook file or a python script. Please make sure to adjust the filename parameter accordingly to match your qasm file before running it.
+- Place the produced csv file in the same diretory as the example.zip(under u200).
+- Run either the sw_emu or hw script according to you preference.
+- The produced output state vector csv file should be under the sw_emu or hw diretory.
+
 Version summary:
 - version_1.0: Contains the Basic implementation, optimizations include loop unrolling and pipelineing.
 - version_1.1: Same as the version 1.0 with extra optimizations including: moving the copy loop inside the 2-qubit gate loop and the dataflow pragma
