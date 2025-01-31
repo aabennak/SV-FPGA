@@ -21,8 +21,6 @@ extern "C" {
 #pragma HLS INTERFACE s_axilite port=target
 #pragma HLS INTERFACE s_axilite port=num_qubits
 #pragma HLS INTERFACE s_axilite port=return
-
-#pragma HLS DATAFLOW // Enables concurrent memory access, computation, and write-back
         
         int num_states = 1 << num_qubits; // Total states (2^num_qubits)
         int gate_size = (control == -1) ? 2 : 4; // Determine gate type based on control   
