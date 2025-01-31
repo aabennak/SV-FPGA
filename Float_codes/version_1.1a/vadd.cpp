@@ -22,6 +22,8 @@ extern "C" {
 #pragma HLS INTERFACE s_axilite port=num_qubits
 #pragma HLS INTERFACE s_axilite port=return
 
+#pragma HLS DATAFLOW // Enables concurrent memory access, computation, and write-back
+        
         int num_states = 1 << num_qubits; // Total states (2^num_qubits)
         int gate_size = (control == -1) ? 2 : 4; // Determine gate type based on control   
         
@@ -33,16 +35,11 @@ for (int i = 0; i < gate_size * gate_size; ++i) {
               << gate_matrix[i].real() << "+" << gate_matrix[i].imag() << "i" << std::endl;
 }     
 */
- copy_loop: for (int i = 0; i < num_states; ++i) {
-        #pragma HLS PIPELINE II=1
-            output_state_1[i] = input_state_1[i];
-            output_state_2[i] = input_state_2[i];
-        } 
-
 // Single-qubit gate operation
 if (gate_size == 2) {
     single_qubit_loop: for (int i = 0; i < num_states; ++i) {
         #pragma HLS PIPELINE II=1
+        #pragma HLS UNROLL factor=3
         int target_bit = (i >> target) & 1; // Extract the target bit (0 or 1)
         int flipped_i = i ^ (1 << target);  // Calculate flipped index by toggling the target bit
 
@@ -94,8 +91,15 @@ if (gate_size == 2) {
         // Two-qubit gate operation
                 // Two-qubit gate operation
         else {
+            copy_loop: for (int i = 0; i < num_states; ++i) {
+        #pragma HLS PIPELINE II=1
+        #pragma HLS UNROLL factor=3
+            output_state_1[i] = input_state_1[i];
+            output_state_2[i] = input_state_2[i];
+        } 
 two_qubit_loop: for (int i = 0; i < num_states; ++i) {
     #pragma HLS PIPELINE II=1
+    #pragma HLS UNROLL factor=3
 
     int control_bit = (i >> control) & 1;  // Extract control bit
     int target_bit = (i >> target) & 1;   // Extract target bit
