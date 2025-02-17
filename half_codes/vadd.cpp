@@ -27,52 +27,6 @@ extern "C" {
         int num_states = 1 << num_qubits;
         int gate_size = (control == -1) ? 2 : 4;
         
-        
-       /*  // Debugging: Print all inputs
-        std::cout << "Number of Qubits: " << num_qubits << std::endl;
-        std::cout << "Control Qubit: " << control << ", Target Qubit: " << target << std::endl;
-
-
-        // Print the state vector (real and imaginary parts)
-        std::cout << "State Vector (Real):" << std::endl;
-        for (int i = 0; i < num_states; ++i) {
-            std::cout << static_cast<float>(state_real[i]) << " ";
-            if ((i + 1) % 8 == 0) std::cout << std::endl; // Print 8 elements per row
-        }
-        std::cout << std::endl;
-
-        std::cout << "State Vector (Imaginary):" << std::endl;
-        for (int i = 0; i < num_states; ++i) {
-            std::cout << static_cast<float>(state_imag[i]) << " ";
-            if ((i + 1) % 8 == 0) std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
-        // Print the gate matrix (real and imaginary parts)
-        std::cout << "Gate Matrix (Real):" << std::endl;
-        for (int i = 0; i < gate_size; ++i) {
-            for (int j = 0; j < gate_size; ++j) {
-                std::cout << static_cast<float>(gate_real[i * gate_size + j]) << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
-        std::cout << "Gate Matrix (Imaginary):" << std::endl;
-        for (int i = 0; i < gate_size; ++i) {
-            for (int j = 0; j < gate_size; ++j) {
-                std::cout << static_cast<float>(gate_imag[i * gate_size + j]) << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;*/
-
-        copy_loop: for (int i = 0; i < num_states; ++i) {
-            #pragma HLS PIPELINE II=1
-            output_real[i] = state_real[i];
-            output_imag[i] = state_imag[i];
-        }
-
         // Single-qubit gate operation
         if (gate_size == 2) {
             single_qubit_loop: for (int i = 0; i < num_states; ++i) {
@@ -105,6 +59,11 @@ extern "C" {
 
         // Two-qubit gate operation
         else {
+            copy_loop: for (int i = 0; i < num_states; ++i) {
+            #pragma HLS PIPELINE II=1
+            output_real[i] = state_real[i];
+            output_imag[i] = state_imag[i];
+        }
             two_qubit_loop: for (int i = 0; i < num_states; ++i) {
                 #pragma HLS PIPELINE II=1
                 #pragma HLS UNROLL factor=5
