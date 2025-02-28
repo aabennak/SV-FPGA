@@ -21,6 +21,7 @@ File Contents:
 - Float_codes Folder: Contains all implementations that represent state vector values in float format.
 - half_codes Folder: Contains all implementations that represent state vector values in half precision format.
 - Script Folder: Contains the scripts for both a software emulation and real hardware synthesis.
+- example.zip: contains a sample file directory and some of the neccasry files for compilation.
 
 Instructions:
 - Download a qasm file of your own liking and run Qasm2CSV.ipynb either as a notebook file or a python script. Please make sure to adjust the filename parameter accordingly to match your qasm file before running it.
